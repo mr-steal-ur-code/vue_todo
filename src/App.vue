@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { useAuthStore } from './stores/auth'
+const auth = useAuthStore()
 </script>
 
 <template>
@@ -7,6 +9,12 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/profile">Profile</RouterLink>
+        <RouterLink to="/tasks">Tasks</RouterLink>
+        <RouterLink v-if="!auth.isAuthenticated" to="/login">Login</RouterLink>
+        <button v-bind="auth.signOut()" v-if="auth.isAuthenticated">
+          Logout
+        </button>
       </nav>
     </div>
   </header>
@@ -22,6 +30,25 @@ header {
 
 .content {
   margin-top: 2rem;
+}
+
+button {
+  border-radius: 5px;
+  padding: 0.4rem;
+  border: none;
+  cursor: pointer;
+  color: rgb(200, 40, 40);
+  transition: color 0.3s ease;
+  background: transparent;
+  font-size: 1rem;
+}
+
+button:hover {
+  color: rgb(250, 40, 40);
+}
+
+button:focus {
+  outline: none;
 }
 
 @media (min-width: 1024px) {
@@ -44,6 +71,10 @@ header {
 
     padding: 1rem 0;
     margin-top: 1rem;
+  }
+
+  button {
+    border-radius: 20px;
   }
 }
 </style>
