@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth'
-const auth = useAuthStore()
+const authStore = useAuthStore()
+authStore.initAuthListener()
 </script>
 
 <template>
@@ -11,8 +12,10 @@ const auth = useAuthStore()
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/tasks">Tasks</RouterLink>
-        <RouterLink v-if="!auth.isAuthenticated" to="/login">Login</RouterLink>
-        <button v-bind="auth.signOut()" v-if="auth.isAuthenticated">
+        <RouterLink v-if="!authStore.isAuthenticated" to="/login"
+          >Login</RouterLink
+        >
+        <button v-bind="authStore.signOut()" v-if="authStore.isAuthenticated">
           Logout
         </button>
       </nav>

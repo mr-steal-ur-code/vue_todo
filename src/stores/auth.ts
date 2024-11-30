@@ -4,17 +4,19 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
 export const useAuthStore = defineStore("auth", () => {
-  const userData = localStorage.getItem("vue-todo-auth") || null;
-  const user = userData !== null ? JSON.parse(userData) : null;
-
-  const currentUser = ref<User | null>(user);
+  const currentUser = ref<User | null>(null);
 
   const initAuthListener = () => {
     auth.onAuthStateChanged((user) => {
-      if (user !== null) {
+      if (user) {
+        console.log("User logged in:", user);
         currentUser.value = user;
-        localStorage.setItem("vue-todo-auth", JSON.stringify(user))
+      } else {
+        console.log("No user logged in");
+        currentUser.value = null;
       }
+      console.log("current user:", auth.currentUser);
+
     });
   };
 
@@ -39,9 +41,7 @@ export const useAuthStore = defineStore("auth", () => {
         email,
         password
       );
-      if (res.user) {
-        return { success: true, response: res.user };
-      }
+      return { success: true, response: res?.user };
     } catch (error: any) {
       console.error(error);
       return {

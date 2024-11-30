@@ -5,7 +5,7 @@
       Don't have an account?
       <RouterLink to="/register">Register here</RouterLink>
     </h3>
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent>
       <label>
         E-mail
         <input v-model="email" name="email" type="email" />
@@ -14,7 +14,7 @@
         Password
         <input v-model="password" type="password" name="password" />
       </label>
-      <button type="submit">Sign In</button>
+      <button @click="handleSubmit">Sign In</button>
     </form>
 
     <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
